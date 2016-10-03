@@ -1,0 +1,7 @@
+sudo mkdir /opt/storm
+cd /opt/storm
+sudo wget {{storm.source}}.tar.gz
+sudo tar -xvzf {{storm.version}}.tar.gz
+sudo rm {{storm.version}}.tar.gz
+sudo chmod +x /opt/storm/{{storm.version}}/bin/storm
+sudo ln -s /opt/storm/{{storm.version}}/bin/storm /usr/bin/storm

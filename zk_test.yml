@@ -1,0 +1,8 @@
+- name: local test
+  hosts: all
+  vars_files:
+    - ./vars_files/zk_vars.yml
+    - ./vars_files/ec2_vars.yml
+  tasks:
+  - name: replace file content with template
+    template: src=./templates/zoo.cfg.j2 dest=./zoo.cfg

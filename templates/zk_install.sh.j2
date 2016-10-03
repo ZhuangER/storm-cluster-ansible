@@ -1,0 +1,18 @@
+# set host file
+
+# download, unzip and install zookeeper
+cd /home/ubuntu
+sudo wget {{zk.source}}
+sudo tar -zxvf {{zk.version}}.tar.gz
+rm {{zk.version}}.tar.gz
+
+sudo mkdir /opt/zookeeper
+sudo mv {{zk.version}} /opt/zookeeper
+
+# set zoo.cfg file
+
+sudo mkdir /opt/zookeeper/zkdata
+sudo mkdir /opt/zookeeper/logs
+
+# echo "1" > /opt/zookeeper/zkdata/myid
+# echo "{{i}}" > /opt/zookeeper/zkdata/myid

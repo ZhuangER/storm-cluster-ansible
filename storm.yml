@@ -1,0 +1,9 @@
+- name: Configure webserver with storm
+  hosts: webservers
+  sudo: True
+  tasks:
+    - name: transfer the script
+      copy: src=./test.sh dest=/home/ubuntu mode=0777
+
+    - name: run the script
+      command: sh /home/ubuntu/test.sh
