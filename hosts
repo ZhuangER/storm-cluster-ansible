@@ -2,3 +2,6 @@ testserver ansible_ssh_host=ec2-52-34-20-168.us-west-2.compute.amazonaws.com ans
 
 [webservers]
 testserver ansible_ssh_host=ec2-52-34-20-168.us-west-2.compute.amazonaws.com
+
+[localhost]
+localhost ansible_python_interpreter='/usr/bin/env python'
