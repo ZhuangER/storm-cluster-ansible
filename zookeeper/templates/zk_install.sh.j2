@@ -1,17 +1,12 @@
-# set host file
-
-# download, unzip and install zookeeper
+# !/bin/bash
 cd /home/ubuntu
 sudo wget {{zk.source}}
-sudo tar -zxvf {{zk.version}}.tar.gz
+sudo tar -zxvf zookeeper-{{zk.version}}.tar.gz
 rm zookeeper-{{zk.version}}.tar.gz
 
 sudo mkdir /opt/zookeeper
 sudo mv zookeeper-{{zk.version}} /opt/zookeeper
 
-# set zoo.cfg file
 
 sudo mkdir /opt/zookeeper/zkdata
 sudo mkdir /opt/zookeeper/logs
-
-

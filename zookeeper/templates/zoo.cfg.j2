@@ -1,0 +1,9 @@
+tickTime=2000
+initLimit=10
+syncLimit=5
+dataDir=/opt/zookeeper/zkdata
+dataLogDir=/opt/zookeeper/logs
+clientPort=2181
+{% for i in range(zk.instance_num)%}
+server.{{i + 1}}=stormnode{{i + 1}}:2888:3888
+{% endfor %}

@@ -1,0 +1,13 @@
+---
+# vars file for zookeeper
+ec2:
+  # ubuntu 14.04LTS ami-d732f0b7
+  ami_id: "ami-d732f0b7"
+  region: "us-west-2"
+  group: "launch-wizard-13"
+  pem_file: "../pem/my-ec2-key.pem"
+
+zk:
+  instance_num: 3
+  source: "http://apache.mirror.gtcomm.net/zookeeper/zookeeper-3.4.6/zookeeper-3.4.6.tar.gz"
+  version: "3.4.6"

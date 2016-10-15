@@ -1,5 +1,4 @@
-zk: {
-  instance_num: 3,
-  source: "http://apache.mirror.gtcomm.net/zookeeper/zookeeper-3.4.6/zookeeper-3.4.6.tar.gz",
-  version: "zookeeper-3.4.6",
-}
+zk:
+  instance_num: 3
+  source: "http://apache.mirror.gtcomm.net/zookeeper/zookeeper-3.4.6/zookeeper-3.4.6.tar.gz"
+  version: "zookeeper-3.4.6"
