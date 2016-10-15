@@ -43,12 +43,31 @@
     - ./vars_files/zk_vars.yml
 
   tasks:
+  - name: install zookeeper dependency
+    command: "{{item}}" 
+    with_items:
+      - sudo apt-get update -y
+      - sudo apt-get -y install default-jdk
+
+  - name: download zookeeper and unzip
+    command: "{item}"
+    with_items:
+      - cd /home/ubuntu
+      - sudo wget {{zk.source}}
+      - sudo tar -zxvf zookeeper-{{zk.version}}.tar.gz
+      - rm zookeeper-{{zk.version}}.tar.gz
+      - sudo mkdir /opt/zookeeper
+      - sudo mv zookeeper-{{zk.version}} /opt/zookeeper
+      # set zoo.cfg file
+      - sudo mkdir /opt/zookeeper/zkdata
+      - sudo mkdir /opt/zookeeper/logs
+
   - name: create zookeeper configuration file
-    template: src=./templates/zoo.cfg.j2 dest=/home/ubuntu/zoo.cfg
+    template: src=./templates/zoo.cfg.j2 dest=/opt/zookeeper/zoo.cfg
 
   - name: Set Zookeeper Id
     copy: >
       content={{ item.0 + 1 }}
-      dest=/home/ubuntu/myid
+      dest=/opt/zookeeper/zkdata/myid
     with_indexed_items: "{{groups['ec2hosts']}}"
     when: item.1 == "{{inventory_hostname}}"

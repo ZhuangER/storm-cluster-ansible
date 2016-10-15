@@ -11,10 +11,13 @@
   #     - sudo apt-get -y install default-jdk
 
   - name: copy shell
-    template: src=./templates/zk_install.sh.j2 dest=./zk_install.sh
-    
-  # - name: run shell
-  #   shell: ~/zk_install.sh
+    template: src=./templates/zk_install.sh.j2 dest=/home/ubuntu/zk_install.sh
+  
+  # - name: change chmod
+  #   command: sudo chmod 777 /home/ubuntu/zk_install.sh
+
+  - name: run shell
+    shell: /home/ubuntu/zk_install.sh
   # - name: download zookeeper and unzip
   #   command: "{item}"
   #   with_items:
@@ -29,5 +32,5 @@
       # - sudo mkdir /opt/zookeeper/logs
 
   - name: replace file content with template
-    template: src=./templates/zoo.cfg.j2 dest=./zoo.cfg
+    template: src=./templates/zoo.cfg.j2 dest=/opt/zookeeper/zookeeper-{{zk.version}}/conf/zoo.cfg
 

@@ -2,16 +2,27 @@
 
 # download, unzip and install zookeeper
 cd /home/ubuntu
-sudo wget {{zk.source}}
-sudo tar -zxvf {{zk.version}}.tar.gz
-rm zookeeper-{{zk.version}}.tar.gz
+if [ ! -f ./zookeeper-{{zk.version}}.tar.gz];then
+  sudo wget {{zk.source}}
+  sudo tar -zxvf zookeeper-{{zk.version}}.tar.gz
+  rm -f zookeeper-{{zk.version}}.tar.gz
+fi
 
-sudo mkdir /opt/zookeeper
-sudo mv zookeeper-{{zk.version}} /opt/zookeeper
+if [ ! -d /opt/zookeeper ];then
+  sudo mkdir /opt/zookeeper
+fi
+
+if [ ! -d zookeeper-{{zk.version}} ];then
+  sudo mv zookeeper-{{zk.version}} /opt/zookeeper
+fi
 
 # set zoo.cfg file
+if [ ! -d /opt/zookeeper/zkdata ];then
+  sudo mkdir /opt/zookeeper/zkdata
+fi
 
-sudo mkdir /opt/zookeeper/zkdata
-sudo mkdir /opt/zookeeper/logs
+if [ ! -d /opt/zookeeper/logs ];then
+  sudo mkdir /opt/zookeeper/logs
+fi
 
 
