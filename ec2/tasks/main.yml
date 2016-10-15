@@ -1,18 +1,18 @@
 ---
 - name: provision a set of instances
-    ec2:
-      key_name: my-ec2-key
-      region: "{{ec2.region}}"
-      group: "{{ec2.group}}"
-      instance_type: t2.micro
-      image: "{{ ec2.ami_id }}"
-      wait: true
-      exact_count: 3
-      count_tag:
-        Name: Zookeeper
-      instance_tags:
-        Name: Zookeeper
-    register: ec2
+  ec2:
+    key_name: my-ec2-key
+    region: "{{ec2.region}}"
+    group: "{{ec2.group}}"
+    instance_type: t2.micro
+    image: "{{ ec2.ami_id }}"
+    wait: true
+    exact_count: 3
+    count_tag:
+      Name: Zookeeper
+    instance_tags:
+      Name: Zookeeper
+  register: ec2
 
 - name: Add all instance public IPs to host group
   add_host: hostname={{ item.public_ip }} groups=ec2hosts
