@@ -32,38 +32,44 @@
                   state=started
     with_items: ec2.instances
 
-  
+
 - hosts: ec2hosts
-  name: configuration play
+  name: install zookeeper on each server
   user: ubuntu
+  become: yes
+  become_method: sudo
   gather_facts: true
-  sudo: True
 
   vars_files:
     - ./vars_files/zk_vars.yml
+    - ./vars_files/storm_vars.yml
 
   tasks:
+  - name: create host file
+    lineinfile: 
+      dest: /etc/hosts
+      line: "{{ item.1 }} stormnode{{ item.0 + 1}}"
+    with_indexed_items: "{{groups['ec2hosts']}}"
+
   - name: install zookeeper dependency
     command: "{{item}}" 
     with_items:
-      - sudo apt-get update -y
-      - sudo apt-get -y install default-jdk
+      - apt-get update -y
+      - apt-get -y install default-jdk
 
-  - name: download zookeeper and unzip
-    command: "{item}"
-    with_items:
-      - cd /home/ubuntu
-      - sudo wget {{zk.source}}
-      - sudo tar -zxvf zookeeper-{{zk.version}}.tar.gz
-      - rm zookeeper-{{zk.version}}.tar.gz
-      - sudo mkdir /opt/zookeeper
-      - sudo mv zookeeper-{{zk.version}} /opt/zookeeper
-      # set zoo.cfg file
-      - sudo mkdir /opt/zookeeper/zkdata
-      - sudo mkdir /opt/zookeeper/logs
+  - name: copy shell
+    template: src=./templates/zk_install.sh.j2 dest=/home/ubuntu/zk_install.sh
+  
+  - name: change right of shell file
+    file:
+      path: /home/ubuntu/zk_install.sh
+      mode: 0777
 
-  - name: create zookeeper configuration file
-    template: src=./templates/zoo.cfg.j2 dest=/opt/zookeeper/zoo.cfg
+  - name: run shell
+    shell: /home/ubuntu/zk_install.sh
+
+  - name: replace file content with template
+    template: src=./templates/zoo.cfg.j2 dest=/opt/zookeeper/zookeeper-{{zk.version}}/conf/zoo.cfg
 
   - name: Set Zookeeper Id
     copy: >
@@ -71,3 +77,15 @@
       dest=/opt/zookeeper/zkdata/myid
     with_indexed_items: "{{groups['ec2hosts']}}"
     when: item.1 == "{{inventory_hostname}}"
+
+  - name: Install stormnode
+    template: src=./templates/storm.sh.j2 dest=/home/ubuntu/storm.sh
+
+  - name: change right of shell file
+    file:
+      path: /home/ubuntu/storm.sh
+      mode: 0777
+  
+  - name: run shell
+    shell: /home/ubuntu/storm.sh
+

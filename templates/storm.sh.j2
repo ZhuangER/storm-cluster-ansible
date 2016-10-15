@@ -1,7 +1,17 @@
+if [ ! -d /opt/storm ]; then
 sudo mkdir /opt/storm
+fi
+
 cd /opt/storm
-sudo wget {{storm.source}}.tar.gz
+
+if [ ! -f /opt/{{storm.version}}.tar.gz ]; then
+sudo wget {{storm.source}}
+fi
+
 sudo tar -xvzf {{storm.version}}.tar.gz
 sudo rm {{storm.version}}.tar.gz
+
+mv {{storm.version}} /opt/storm
+
 sudo chmod +x /opt/storm/{{storm.version}}/bin/storm
 sudo ln -s /opt/storm/{{storm.version}}/bin/storm /usr/bin/storm

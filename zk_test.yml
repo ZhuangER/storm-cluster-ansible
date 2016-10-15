@@ -4,32 +4,19 @@
     - ./vars_files/zk_vars.yml
     - ./vars_files/ec2_vars.yml
   tasks:
-  # - name: install zookeeper dependency
-  #   command: "{{item}}" 
-  #   with_items:
-  #     - sudo apt-get update -y
-  #     - sudo apt-get -y install default-jdk
+  - name: install zookeeper dependency
+    become: yes
+    become_method: sudo
+    command: "{{item}}" 
+    with_items:
+      - apt-get update -y
+      - apt-get -y install default-jdk
 
   - name: copy shell
     template: src=./templates/zk_install.sh.j2 dest=/home/ubuntu/zk_install.sh
-  
-  # - name: change chmod
-  #   command: sudo chmod 777 /home/ubuntu/zk_install.sh
 
   - name: run shell
     shell: /home/ubuntu/zk_install.sh
-  # - name: download zookeeper and unzip
-  #   command: "{item}"
-  #   with_items:
-      # - sudo cd /home/ubuntu/
-      # - sudo wget {{zk.source}}
-      # - sudo tar -zxvf zookeeper-{{zk.version}}.tar.gz
-      # - rm zookeeper-{{zk.version}}.tar.gz
-      # - sudo mkdir /opt/zookeeper
-      # - sudo mv zookeeper-{{zk.version}} /opt/zookeeper
-      # # set zoo.cfg file
-      # - sudo mkdir /opt/zookeeper/zkdata
-      # - sudo mkdir /opt/zookeeper/logs
 
   - name: replace file content with template
     template: src=./templates/zoo.cfg.j2 dest=/opt/zookeeper/zookeeper-{{zk.version}}/conf/zoo.cfg

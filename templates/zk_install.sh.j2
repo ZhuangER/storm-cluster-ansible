@@ -2,7 +2,7 @@
 
 # download, unzip and install zookeeper
 cd /home/ubuntu
-if [ ! -f ./zookeeper-{{zk.version}}.tar.gz];then
+if [ ! -f ./zookeeper-{{zk.version}}.tar.gz ];then
   sudo wget {{zk.source}}
   sudo tar -zxvf zookeeper-{{zk.version}}.tar.gz
   rm -f zookeeper-{{zk.version}}.tar.gz
@@ -12,7 +12,7 @@ if [ ! -d /opt/zookeeper ];then
   sudo mkdir /opt/zookeeper
 fi
 
-if [ ! -d zookeeper-{{zk.version}} ];then
+if [ ! -d /opt/zookeeper/zookeeper-{{zk.version}} ];then
   sudo mv zookeeper-{{zk.version}} /opt/zookeeper
 fi
 
