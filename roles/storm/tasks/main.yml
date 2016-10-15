@@ -1,0 +1,11 @@
+---
+- name: Install stormnode
+  template: src=storm.sh.j2 dest=/home/ubuntu/storm.sh
+
+- name: change right of shell file
+  file:
+    path: /home/ubuntu/storm.sh
+    mode: 0777
+
+- name: run shell
+  shell: /home/ubuntu/storm.sh

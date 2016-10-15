@@ -1,0 +1,33 @@
+---
+- name: create host file
+  lineinfile: 
+    dest: /etc/hosts
+    line: "{{ item.1 }} stormnode{{ item.0 + 1}}"
+  with_indexed_items: "{{groups['ec2hosts']}}"
+
+- name: install zookeeper dependency
+  command: "{{item}}" 
+  with_items:
+    - apt-get update -y
+    - apt-get -y install default-jdk
+
+- name: copy shell
+  template: src=zk_install.sh.j2 dest=/home/ubuntu/zk_install.sh
+
+- name: change right of shell file
+  file:
+    path: /home/ubuntu/zk_install.sh
+    mode: 0777
+
+- name: run shell
+  shell: /home/ubuntu/zk_install.sh
+
+- name: replace file content with template
+  template: src=zoo.cfg.j2 dest=/opt/zookeeper/zookeeper-{{zk.version}}/conf/zoo.cfg
+
+- name: Set Zookeeper Id
+  copy: >
+    content={{ item.0 + 1 }}
+    dest=/opt/zookeeper/zkdata/myid
+  with_indexed_items: "{{groups['ec2hosts']}}"
+  when: item.1 == "{{inventory_hostname}}"
