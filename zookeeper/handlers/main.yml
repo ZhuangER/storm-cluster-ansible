@@ -1,3 +1,9 @@
 ---
-- name: Restart Zookeeper
-  service: name=zookeeper-server state=restarted
+- name: start zookeeper
+  shell: /opt/zookeeper/zookeeper-{{zk.version}}/bin/zkServer.sh start
+
+- name: status of zookeeper
+  shell: /opt/zookeeper/zookeeper-{{zk.version}}/bin/zkServer.sh status
+
+- name: stop zookeeper
+  shell: /opt/zookeeper/zookeeper-{{zk.version}}/bin/zkServer.sh stop

@@ -1,10 +1,4 @@
 ---
-- name: create host file
-  lineinfile: 
-    dest: /etc/hosts
-    line: "{{ item.1 }} stormnode{{ item.0 + 1}}"
-  with_indexed_items: "{{groups['ec2hosts']}}"
-
 - name: install zookeeper dependency
   command: "{{item}}" 
   with_items:
@@ -31,3 +25,15 @@
     dest=/opt/zookeeper/zkdata/myid
   with_indexed_items: "{{groups['ec2hosts']}}"
   when: item.1 == "{{inventory_hostname}}"
+
+- name: add environment variable of zookeeper
+  blockinfile: 
+    dest: /etc/profile
+    content: "export ZOOKEEPER_HOME=/opt/zookeeper/zookeeper-3.4.6
+      export PATH=$ZOOKEEPER_HOME/bin:$PATH"
+
+# - name: activate the environment variable
+#   become: yes
+#   become_method: sudo
+#   shell: . /etc/profile
+

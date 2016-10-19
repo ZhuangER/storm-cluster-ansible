@@ -1,2 +1,9 @@
 ---
-# handlers file for storm
+- name: start storm nimbus
+  command: storm nimbus >/dev/null 2>&1 &
+
+- name: start storm ui
+  command: storm ui >/dev/null 2>&1 &
+
+- name: start storm supervisor
+  command: storm supervisor >/dev/null 2>&1 &

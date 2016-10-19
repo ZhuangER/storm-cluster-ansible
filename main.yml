@@ -12,5 +12,6 @@
   become_method: sudo
   gather_facts: true
   roles:
+  - common
   - zookeeper
   - storm

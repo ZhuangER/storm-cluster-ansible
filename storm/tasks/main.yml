@@ -9,3 +9,24 @@
 
 - name: run shell
   shell: /home/ubuntu/storm.sh
+
+- name: copy storm.yaml
+  template: src=storm.yaml.j2 dest=/opt/storm/{{storm.version}}/conf/storm.yaml
+
+# - name: start nimbus
+#   command: 
+#     storm nimbus &
+#   with_indexed_items: "{{groups['ec2hosts']}}"
+#   when: item.0 == 0
+
+# - name: start ui
+#   command: 
+#     storm ui &
+#   with_indexed_items: "{{groups['ec2hosts']}}"
+#   when: item.0 == 0
+
+# - name: start nimbus
+#   command: 
+#     storm supervisor &
+#   with_indexed_items: "{{groups['ec2hosts']}}"
+#   when: item.1 != 0

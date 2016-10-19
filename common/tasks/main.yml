@@ -1,0 +1,7 @@
+---
+# tasks file for common
+- name: create host file
+  lineinfile: 
+    dest: /etc/hosts
+    line: "{{ item.1 }} stormnode{{ item.0 + 1}}"
+  with_indexed_items: "{{groups['ec2hosts']}}"

@@ -1,0 +1,17 @@
+storm.zookeeper.servers:
+{% for i in range(zk.instance_num)%}
+  - "stormnode{{i + 1}}"
+{% endfor %}
+nimbus.host: "stormnode1"
+
+storm.local.dir: "/opt/storm/localdir"
+
+supervisor.slots.ports:
+  - 6700
+  - 6701
+  - 6702
+  - 6703
+
+ui.port: 8088
+
+storm.zookeeper.port: 2181

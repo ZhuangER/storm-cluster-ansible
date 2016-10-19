@@ -13,5 +13,9 @@ sudo rm {{storm.version}}.tar.gz
 
 mv {{storm.version}} /opt/storm
 
+if [ ! -d /opt/storm/localdir ]; then
+sudo mkdir /opt/storm/localdir
+fi
+
 sudo chmod +x /opt/storm/{{storm.version}}/bin/storm
 sudo ln -s /opt/storm/{{storm.version}}/bin/storm /usr/bin/storm
